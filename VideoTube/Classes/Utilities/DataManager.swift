@@ -10,12 +10,9 @@ import Foundation
 
 class DataManager {
     
-    class func getMostPopularVideos(completion: @escaping ([Item])->()){
-        let urlString = "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails%2Cstatistics&chart=mostPopular&regionCode=IN&key=AIzaSyB1dstyQMMEfg9U-7d8Tfn_n-8lInZQ4aI"
-        guard let url = URL(string: urlString) else{return}
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data, error == nil else{return}
+    class func getMostPopularVideos(completion: @escaping ([Item])->Void){
+        let endpoint = "videos?part=snippet,contentDetails,statistics&chart=mostPopular&regionCode=IN&key=AIzaSyB1dstyQMMEfg9U-7d8Tfn_n-8lInZQ4aI"
+        Webservice.callApi(endpoint: endpoint) { (data) in
             do{
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(VideoStruct.self, from: data)
@@ -25,15 +22,12 @@ class DataManager {
             }catch{
                 print(error)
             }
-        }.resume()
+        }
     }
     
-    class func getChannelData(channelId: String, completion: @escaping ([Item])->()){
-        let urlString = "https://www.googleapis.com/youtube/v3/channels?part=snippet&id="+channelId+"&key=AIzaSyB1dstyQMMEfg9U-7d8Tfn_n-8lInZQ4aI"
-        guard let url = URL(string: urlString) else{return}
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { (data, response, error) in
-            guard let data = data , error == nil else{return}
+    class func getChannelData(channelId: String, completion: @escaping ([Item])->Void){
+        let endpoint = "channels?part=snippet&id="+channelId+"&key=AIzaSyB1dstyQMMEfg9U-7d8Tfn_n-8lInZQ4aI"
+        Webservice.callApi(endpoint: endpoint) { (data) in
             do{
                 let decoder = JSONDecoder()
                 let response = try decoder.decode(ChannelStruct.self, from: data)
@@ -43,6 +37,6 @@ class DataManager {
             }catch{
                 print(error)
             }
-        }.resume()
+        }
     }
 }

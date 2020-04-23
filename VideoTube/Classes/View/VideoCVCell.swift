@@ -28,7 +28,7 @@ class VideoCVCell: UICollectionViewCell {
         }
         self.channelId = popularVideos[indexPath.row].snippet?.channelId
         self.views = popularVideos[indexPath.row].statistics?.viewCount
-        DataManager.getChannelData(channelId: self.channelId!) { (channelData) in
+        DataManager.getChannelData(channelId: self.channelId ?? "UCm9SZAl03Rev9sFwloCdz1g") { (channelData) in
             self.channelTitle.text = "\((channelData[0].snippet?.title)!) . \(HelpingMethods.views(views: Int(self.views!)!)) views . \(HelpingMethods.publishedAt(publishedAt: (popularVideos[indexPath.row].snippet?.publishedAt)!))"
             ImageServices().getImage(urlString: (channelData[0].snippet?.thumbnails?.high?.url)!) { (image) in
                 self.channelIcon.image = image

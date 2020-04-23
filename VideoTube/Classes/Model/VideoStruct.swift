@@ -13,6 +13,7 @@ struct VideoStruct: Codable {
 }
 
 struct Item: Codable {
+    let id: String?
     let snippet: Snippet?
     let contentDetails: ContentDetails?
     let statistics: Statistics?
